@@ -1,12 +1,13 @@
 const express= require('express')
 const router = express.Router()
 const Post = require('../models/Post')
-const USer = require('../models/User')
+const User = require('../models/User')
 const bcrypt = require('bcrypt')
 const jwt = require('jsonwebtoken')
-const User = require('../models/User')
+
 
 const adminLayout = '../views/layouts/admin_template'
+const publicLayout ='../views/layouts/template'
 
 const jwtSecret = process.env.JWT_SECRET
 
@@ -120,20 +121,19 @@ router.get('/add-post', authMiddleware, async (req,res)=>{
 
 //get 
 //admin - view post
-router.get('/post/:id', authMiddleware, async (req,res)=>{
+router.get('/post/:id', async (req,res)=>{
     try{
-        const locals ={
-            title: 'Add Post',
-            description: 'Simple Blog created with Node Js'
-        }
         const data = await Post.findById(req.params.id)
-        res.send(data)
+        res.render('post/post-view',{
+            data,
+            currentRoute:'/',
+            layout:publicLayout
+        })
 
     }catch(err){
         console.log(err)
     }
 })
-
 
 
 //Post 
