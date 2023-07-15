@@ -9,7 +9,7 @@ router.get('', async (req, res) => {
     try {
         const locals = {
             title: "Nodejs blog",
-            desc: "Simple blog making",
+            desc: "Simple blog making",  //변경할 부분들
             name: "Hyun"
         }
         let perPage = 10;
@@ -42,7 +42,7 @@ router.get('', async (req, res) => {
 router.get('', async (req, res) => {
     const locals = {
         title: "Nodejs blog",
-        desc: "Simple blog making",
+        desc: "Simple blog making",  //변경
         name: "Hyun"
     }
     try {
@@ -74,25 +74,3 @@ router.get('/contact', (req,res)=>{
 module.exports = router
 
 
-
-/* function insertPostData () {
-    Post.insertMany([
-        {
-            title: "Building AI",
-            desc:  "This is the body text",
-        },
-        {
-            title: "Building Node js",
-            desc:  "This is the body text",
-        },
-        {
-            title: "Building Flask",
-            desc:  "This is the body text",
-        },
-        {
-            title: "Building CGV",
-            desc:  "This is the body text",
-        },
-    ])
-}
-insertPostData();  */
