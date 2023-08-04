@@ -28,27 +28,19 @@ const authMiddleware = (req, res, next) => {
 
 /* GET /
    ADMIN - login page */
-router.get("/admin", async (req, res) => {
+router.get("/login", async (req, res) => {
   try {
-    const locals = {
-      title: "admin page",
-      desc: "Simple blog making",
-    };
-    res.render("admin/index", { locals, layout: adminLayout });
+    res.render("admin/Login", { layout: adminLayout });
   } catch (err) {
-    console.log(error);
+    console.log(err);
   }
 });
 
-/**
- * Post
- * admin = check login
- */
-
-router.post("/admin", async (req, res) => {
+//Post
+//Admin -check login
+router.post("/login", async (req, res) => {
   try {
     const { username, password } = req.body;
-
     const user = await User.findOne({ username });
 
     if (!user) {
@@ -56,7 +48,7 @@ router.post("/admin", async (req, res) => {
     }
     const isPasswordvalid = await bcrypt.compare(password, user.password);
     if (!isPasswordvalid) {
-      return res.status(401).json({ message: "invalid credentials" });
+      return res.status(401).json({ message: "wrong password" });
     }
 
     const token = jwt.sign({ userId: user._id }, jwtSecret);
@@ -185,9 +177,8 @@ router.post("/register", async (req, res) => {
         username,
         password: hashedPassword,
       });
-      res.cookie("signupSuccess", true, { maxAge: 360000 });
-      res.redirect("/");
-      //res.status(201).json({ message: "User created", user });
+      //res.redirect("/");
+      res.status(201).json({ message: "User created", user });
     } catch (err) {
       if (err.code === 11000) {
         res.status(409).json({ message: "User already in use" });

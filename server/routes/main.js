@@ -4,7 +4,7 @@ const Post = require("../models/Post");
 require("dotenv").config();
 
 //GET HOME
-router.get("", async (req, res) => {
+router.get("/", async (req, res) => {
   try {
     const locals = {
       title: "Nodejs blog",
