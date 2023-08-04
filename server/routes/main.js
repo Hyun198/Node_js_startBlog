@@ -3,13 +3,11 @@ const router = express.Router();
 const Post = require("../models/Post");
 require("dotenv").config();
 
-/* GET /
-   HOME */
+//GET HOME
 router.get("", async (req, res) => {
   try {
     const locals = {
       title: "Nodejs blog",
-      desc: "Simple blog making", //변경할 부분들
       name: "Hyun",
     };
     let perPage = 10;
@@ -36,14 +34,27 @@ router.get("", async (req, res) => {
   }
 });
 
-/* router.get("", async (req, res) => {
+//Post- searchTerm
+
+router.post("/search", async (req, res) => {
   try {
-    const data = await Post.find();
-    res.render("home", { data });
+    let searchTerm = req.body.searchTerm;
+
+    const searchNoSpecialChar = searchTerm.replace(/[^a-zA-Z0-9]/g, "");
+    const data = await Post.find({
+      $or: [
+        { title: { $regex: new RegExp(searchNoSpecialChar, "i") } },
+        { body: { $regex: new RegExp(searchNoSpecialChar, "i") } },
+      ],
+    });
+    res.render("search", {
+      data,
+      currentRoute: "/",
+    });
   } catch (err) {
     console.log(err);
   }
-}); */
+});
 
 router.get("/about", (req, res) => {
   res.render("about", {
@@ -57,9 +68,9 @@ router.get("/contact", (req, res) => {
   });
 });
 
-router.get("/signin", (req, res) => {
-  res.render("sign_in", {
-    currentRoute: "/sign_in",
+router.get("/signup", (req, res) => {
+  res.render("signup", {
+    currentRoute: "/signup",
   });
 });
 
